@@ -1,8 +1,145 @@
-*{
-	box-sizing: border-box;
+* {
+    box-sizing: border-box;
 }
 
-html{
-	font-size: 62.5%;
-	background-color: #fff;
+html {
+    font-size: 62.5%;
+    background-color: $blanc;
+}
+
+body {
+    font-size: 2rem;
+    display: flex;
+    width: 100%;
+    font-family: 'OpenSans';
+    font-weight: $regular;
+}
+
+.wrapper {
+    order: 1;
+    flex: 1;
+}
+
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+.full-new{
+    position: relative;
+    display: flex;
+    height: 100vh;
+    
+    .img-wrapper{
+        height: 100vh;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left:0;
+        right:0;
+        overflow: hidden;
+        
+        &::before{
+            content:'';
+            position: absolute;
+            background: linear-gradient(to bottom, transparent 46%,rgba(#000, .6) 100%);
+            top: 0;
+            right:0;
+            bottom: 0;
+            left:0;
+            z-index: 2;
+        }
+    }
+    
+    img{
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        animation-name: scaleImg;
+        animation-duration: 60s;
+        animation-timing-function: ease-out;
+        transform: scale(1.2);
+        position: relative;
+    }
+    
+    .news-wrapper{
+        position: relative;
+        z-index: 2;
+    }
+    
+    a{
+        display: block;
+        width: 100%;
+        padding: $big-padding;
+        margin-top: auto;
+        margin-bottom: 0;
+        color:$blanc;
+        text-decoration: none;
+    }
+    
+    h2{
+        margin-top: .2em;
+        max-width: 50%;
+    }
+}
+
+h2{
+    font-family: 'PT';
+    font-size: 4.5rem;
+}
+
+.date{
+    text-transform: uppercase;
+    font-weight: $semibold;
+    font-size: 1.5rem;
+}
+
+.bt-arrow{
+    font-family: 'PT';
+    font-size: 1.5rem;
+    border:0;
+    background: none;
+    color: $blanc;
+    padding: 0;
+    margin:0;
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+    cursor: pointer;
+    
+    i{
+        transition: all ease .2s;
+        width: 40px;
+        height: 2px;
+        display: block;
+        background-color: $blanc;
+        margin-right: 20px;
+        position: relative;
+        
+        &::before,
+        &::after{
+            content: '';
+            width: 20px;
+            height: 2px;
+            display: block;
+            background-color: $blanc;
+            transform-origin: right center;
+            position: absolute;
+            right: 0;
+        }
+        
+        &::before{
+            transform: rotate(45deg);
+        }
+        
+        &::after{
+            transform: rotate(-45deg);
+        }
+    }
+    
+    &:hover{
+        i{
+            width: 60px;
+        }
+    }
 }

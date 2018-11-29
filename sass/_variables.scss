@@ -1,10 +1,11 @@
-$primaire: red;
-$secondaire: blue;
-$blanc: #f5f6f6;
-$gris: #b1b1b1;
-$noir: #000;
+$primaire: #8FC9ED;
+$secondaire: #C34141;
+$blanc: #fff;
+//$gris: #b1b1b1;
+$noir: #313131;
 
 $padding: 40px;
+$big-padding: 80px;
 
 $book : 100;
 $thin: 200;
@@ -15,3 +16,12 @@ $semibold: 600;
 $bold : 700;
 $extrabold: 800;
 $black : 900;
+
+@keyframes scaleImg {
+    from {
+        transform: scale(1);
+    }
+    to{
+        transform: scale(1.2);
+    }
+}

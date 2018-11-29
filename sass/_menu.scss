@@ -1,0 +1,45 @@
+.nav {
+    order: 2;
+    width: 75px;
+    height: 100vh;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    background-color: $blanc;
+    
+    ul{
+        width: 100vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        display: flex;
+        justify-content: center;
+        text-transform: uppercase;
+        font-weight: $semibold;
+        font-size: 1.7rem;
+    }
+    
+    li:not(:last-child){
+        margin-right: 5px;
+    }
+    
+    a{
+        transition: color ease .15s;
+        color: $noir;
+        text-decoration: none;
+        padding: 1em;
+        
+        &:hover,
+        &:focus{
+            color: $secondaire;
+        }
+    }
+}
+
+.current-menu-item{
+    a{
+        color: $secondaire;
+    }
+}

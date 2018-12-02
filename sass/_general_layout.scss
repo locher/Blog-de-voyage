@@ -18,6 +18,7 @@ body {
 .wrapper {
     order: 1;
     flex: 1;
+    width: calc(100vw - 75px);
 }
 
 img{
@@ -25,73 +26,16 @@ img{
     height: auto;
 }
 
-.full-new{
-    position: relative;
-    display: flex;
-    height: 100vh;
-    
-    .img-wrapper{
-        height: 100vh;
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left:0;
-        right:0;
-        overflow: hidden;
-        
-        &::before{
-            content:'';
-            position: absolute;
-            background: linear-gradient(to bottom, transparent 46%,rgba(#000, .6) 100%);
-            top: 0;
-            right:0;
-            bottom: 0;
-            left:0;
-            z-index: 2;
-        }
-    }
-    
-    img{
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-        animation-name: scaleImg;
-        animation-duration: 60s;
-        animation-timing-function: ease-out;
-        transform: scale(1.2);
-        position: relative;
-    }
-    
-    .news-wrapper{
-        position: relative;
-        z-index: 2;
-    }
-    
-    a{
-        display: block;
-        width: 100%;
-        padding: $big-padding;
-        margin-top: auto;
-        margin-bottom: 0;
-        color:$blanc;
-        text-decoration: none;
-    }
-    
-    h2{
-        margin-top: .2em;
-        max-width: 50%;
-    }
-}
-
 h2{
     font-family: 'PT';
     font-size: 4.5rem;
+    line-height: 1.1em;
 }
 
 .date{
     text-transform: uppercase;
     font-weight: $semibold;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 
 .bt-arrow{
@@ -115,6 +59,7 @@ h2{
         background-color: $blanc;
         margin-right: 20px;
         position: relative;
+        border-radius: 5px;
         
         &::before,
         &::after{
@@ -126,6 +71,7 @@ h2{
             transform-origin: right center;
             position: absolute;
             right: 0;
+            border-radius: 5px;
         }
         
         &::before{
@@ -134,12 +80,6 @@ h2{
         
         &::after{
             transform: rotate(-45deg);
-        }
-    }
-    
-    &:hover{
-        i{
-            width: 60px;
         }
     }
 }

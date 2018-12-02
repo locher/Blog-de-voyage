@@ -1,25 +1,32 @@
 <?php get_header(); ?>
 
+<?php
+
+    //
+    
+?>
+
 <main role="main">
 
-    <article class="full-new">
-        <a href="#_">
-            <div class="news-wrapper">
-                <span class="date">18 janvier 2019</span>
-                <h2>Du Fansipan aux rizières de La Pan Tan</h2>
-                <button class="bt-arrow">
-                   <i></i>Lire l'article
-                </button>
-            </div>
-            <div class="img-wrapper">
-                <img src="https://picsum.photos/1920/1080" alt="">
-            </div>
-        </a>
+    <article class="full-new w100 h100">
+        <?php get_template_part('template-parts/new-single'); ?>
     </article>
     
-    <article>
-        yo
-    </article>
+    <section class="home-second">
+        <div>
+           <article class="full-new w50 h100">
+               <?php get_template_part('template-parts/new-single'); ?>
+           </article>            
+        </div>
+        <div class="home-second--right">
+            <div class="home-carte">
+                carte
+            </div>
+            <article class="full-new w50 h50">
+                <?php get_template_part('template-parts/new-single'); ?>
+            </article>
+        </div>
+    </section>
 
 </main>
 

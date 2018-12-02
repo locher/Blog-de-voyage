@@ -2,26 +2,17 @@ $primaire: #8FC9ED;
 $secondaire: #C34141;
 $blanc: #fff;
 //$gris: #b1b1b1;
-$noir: #313131;
 
+$noir: #313131;
 $padding: 40px;
 $big-padding: 80px;
 
-$book : 100;
+$book: 100;
 $thin: 200;
 $light: 300;
-$regular : 400;
-$medium : 500;
+$regular: 400;
+$medium: 500;
 $semibold: 600;
-$bold : 700;
+$bold: 700;
 $extrabold: 800;
-$black : 900;
-
-@keyframes scaleImg {
-    from {
-        transform: scale(1);
-    }
-    to{
-        transform: scale(1.2);
-    }
-}
+$black: 900;

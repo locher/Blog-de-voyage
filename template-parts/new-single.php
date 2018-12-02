@@ -1,12 +1,20 @@
-<a href="#_">
+<?php 
+    global $post;
+    global $size;
+    $galery = get_field('galerie_photo', $post);
+    $date = strtotime($post->post_date);
+    setlocale (LC_TIME, 'fr_FR','fra'); 
+?>
+
+<a href="<?php echo get_permalink($post);?>">
     <div class="news-wrapper">
-        <span class="date">18 janvier 2019</span>
-        <h2>Du Fansipan aux rizières de La Pan Tan</h2>
+        <span class="date"><?php echo strftime('%d %B %Y', $date);?></span>
+        <h2><?php echo $post->post_title;?></h2>
         <button class="bt-arrow">
            <i></i>Lire l'article
         </button>
     </div>
     <div class="img-wrapper">
-        <img src="https://picsum.photos/1920/1080" alt="">
+        <img src="<?php echo $galery[0]['sizes'][$size];?>" alt="<?php echo $galery['alt'];?>">
     </div>
 </a>

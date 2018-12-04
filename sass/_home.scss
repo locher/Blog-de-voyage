@@ -113,3 +113,37 @@
         flex: 1;
     }
 }
+
+//Carte
+
+.home-carte{
+    background-image: linear-gradient(to right, $primaire , $secondaire);
+    padding: 20px;
+    display: flex;
+    position: relative;
+}
+
+.wrapper-carte{
+    background-color: $blanc;
+    width: 100%;
+    display: flex;
+    z-index: 1;
+    
+    > div{
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.overlay-map{
+    position: absolute;
+    z-index: 1000;
+    bottom: 0;
+    left: 0;
+    padding: $big-padding;
+    //background-color: blue;
+    
+    p{
+        font-family: $serif;
+    }
+}

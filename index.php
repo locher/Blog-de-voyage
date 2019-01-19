@@ -1,19 +1,22 @@
 <?php get_header(); ?>
 
-	<main role="main">
-		<!-- section -->
-		<section>
 
-			<h1><?php _e( 'Latest Posts', 'html5blank' ); ?></h1>
+<main role="main">
 
-			<?php get_template_part('loop'); ?>
+    <?php
+		if ( have_posts() ) : ?>
+        <?php
+			/* Start the Loop */
+			while ( have_posts() ) : the_post();
+    $size = 'h50w100';
+        ?>
 
-			<?php get_template_part('pagination'); ?>
+            <article class="full-new w100 h50">
+                <?php get_template_part('template-parts/new-single'); ?>
+            </article>
 
-		</section>
-		<!-- /section -->
-	</main>
+</main>
 
-<?php get_sidebar(); ?>
+<?php endwhile; endif;?>
 
 <?php get_footer(); ?>

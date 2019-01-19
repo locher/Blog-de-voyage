@@ -1,45 +1,59 @@
 .nav {
+    @include width-above(701px) {
+        width: 75px;
+        height: 100vh;
+        top: 0;
+        right: 0;
+        position: sticky;
+    }
+    @include width-below(700px) {
+        width: 100vw;
+        height: 60px;
+        bottom: 0;
+        right: 0;
+        position: fixed;
+        display: flex;
+    }
     order: 2;
-    width: 75px;
-    height: 100vh;
-    position: sticky;
-    z-index: 100;
-    top: 0;
-    right: 0;
-    background-color: $blanc;
     
-    ul{
-        width: 100vh;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(90deg);
+    z-index: 100;
+    background-color: $blanc;
+    ul {
+        @include width-above(701px) {
+            width: 100vh;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(90deg);
+            position: absolute;
+        }
+        
+        @include width-below(700px) {
+            margin: auto;
+        }
+        
         display: flex;
         justify-content: center;
         text-transform: uppercase;
         font-weight: $semibold;
         font-size: 1.5rem;
     }
-    
-    li:not(:last-child){
+    li:not(:last-child) {
         margin-right: 5px;
     }
-    
-    a{
+    a {
         transition: color ease .15s;
         color: $noir;
         text-decoration: none;
         padding: 1em;
-        
         &:hover,
-        &:focus{
+        &:focus {
             color: $secondaire;
         }
     }
 }
 
-.current-menu-item{
-    a{
+.current-menu-item {
+    a {
         color: $secondaire;
     }
 }

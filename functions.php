@@ -13,6 +13,9 @@ if (function_exists('add_theme_support'))
     add_image_size('h100w100', 1920, 1080, true);
     add_image_size('h100w50', 960, 1080, true);
     add_image_size('h50w50', 960, 540, true);
+    add_image_size('h25w25', 460, 460, true);
+    add_image_size('h50w100', 1920, 540, true);
+    
 
     // Enables post and comment RSS feed links to head
     add_theme_support('automatic-feed-links');
@@ -37,6 +40,9 @@ function html5blank_header_scripts()
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
         wp_register_script('myscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
         wp_enqueue_script('myscripts'); // Enqueue it!
+        
+        wp_register_script('lightbox', get_template_directory_uri() . '/js/fancybox/jquery.fancybox-1.3.4.js', array('jquery'), '1.0.0'); // Custom scripts
+        wp_enqueue_script('lightbox'); // Enqueue it!
     }
 }
 
@@ -54,6 +60,9 @@ function html5blank_styles()
 {
     wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
     wp_enqueue_style('html5blank'); // Enqueue it!
+    
+    wp_register_style('fancycss', get_template_directory_uri() . '/js/fancybox/jquery.fancybox-1.3.4.css"', array(), '1.0', 'all');
+    wp_enqueue_style('fancycss'); // Enqueue it!
 }
 
 // Register HTML5 Blank Navigation
@@ -292,6 +301,49 @@ function html5_shortcode_demo($atts, $content = null)
 function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 shortcode, allows for nesting within above element. Fully expandable.
 {
     return '<h2>' . $content . '</h2>';
+}
+
+// Fonctions GPS
+
+function get_image_location($image = ''){
+    $exif = exif_read_data($image, 0, true);
+    if($exif && isset($exif['GPS'])){
+        $GPSLatitudeRef = $exif['GPS']['GPSLatitudeRef'];
+        $GPSLatitude    = $exif['GPS']['GPSLatitude'];
+        $GPSLongitudeRef= $exif['GPS']['GPSLongitudeRef'];
+        $GPSLongitude   = $exif['GPS']['GPSLongitude'];
+        
+        $lat_degrees = count($GPSLatitude) > 0 ? gps2Num($GPSLatitude[0]) : 0;
+        $lat_minutes = count($GPSLatitude) > 1 ? gps2Num($GPSLatitude[1]) : 0;
+        $lat_seconds = count($GPSLatitude) > 2 ? gps2Num($GPSLatitude[2]) : 0;
+        
+        $lon_degrees = count($GPSLongitude) > 0 ? gps2Num($GPSLongitude[0]) : 0;
+        $lon_minutes = count($GPSLongitude) > 1 ? gps2Num($GPSLongitude[1]) : 0;
+        $lon_seconds = count($GPSLongitude) > 2 ? gps2Num($GPSLongitude[2]) : 0;
+        
+        $lat_direction = ($GPSLatitudeRef == 'W' or $GPSLatitudeRef == 'S') ? -1 : 1;
+        $lon_direction = ($GPSLongitudeRef == 'W' or $GPSLongitudeRef == 'S') ? -1 : 1;
+        
+        $latitude = $lat_direction * ($lat_degrees + ($lat_minutes / 60) + ($lat_seconds / (60*60)));
+        $longitude = $lon_direction * ($lon_degrees + ($lon_minutes / 60) + ($lon_seconds / (60*60)));
+
+        return array('latitude'=>$latitude, 'longitude'=>$longitude);
+    }else{
+        return false;
+    }
+}
+
+function gps2Num($coordPart) {
+
+    $parts = explode('/', $coordPart);
+
+    if (count($parts) <= 0)
+        return 0;
+
+    if (count($parts) == 1)
+        return $parts[0];
+
+    return floatval($parts[0]) / floatval($parts[1]);
 }
 
 ?>

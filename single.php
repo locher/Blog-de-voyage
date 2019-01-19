@@ -1,67 +1,133 @@
 <?php get_header(); ?>
 
-	<main role="main">
-	<!-- section -->
-	<section>
+<?php
+    if (have_posts()): while (have_posts()) : the_post(); 
+        $galery = get_field('galerie_photo', $post);
+?>
 
-	<?php if (have_posts()): while (have_posts()) : the_post(); ?>
+    <main role="main" class="single">
+        <article>
 
-		<!-- article -->
-		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+            <?php if($galery):?>
+            <div class="img-wrapper">
+                <img src="<?php echo $galery[0]['sizes']['h100w100'];?>" alt="<?php echo $galery['alt'];?>">
+            </div>
+            <?php endif;?>
 
-			<!-- post thumbnail -->
-			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
-				<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-					<?php the_post_thumbnail(); // Fullsize image for the single post ?>
-				</a>
-			<?php endif; ?>
-			<!-- /post thumbnail -->
+            <div class="single-wrapper">
 
-			<!-- post title -->
-			<h1>
-				<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
-			</h1>
-			<!-- /post title -->
+                <header class="single-header-wrapper">
 
-			<!-- post details -->
-			<span class="date"><?php the_time('F j, Y'); ?> <?php the_time('g:i a'); ?></span>
-			<span class="author"><?php _e( 'Published by', 'html5blank' ); ?> <?php the_author_posts_link(); ?></span>
-			<span class="comments"><?php if (comments_open( get_the_ID() ) ) comments_popup_link( __( 'Leave your thoughts', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></span>
-			<!-- /post details -->
+                    <p class="date">
+                        <?php echo the_date();?> -
+                        <?php the_author();?>
+                    </p>
+                    <h1>
+                        <?php the_title();?>
+                    </h1>
 
-			<?php the_content(); // Dynamic Content ?>
+                </header>
 
-			<?php the_tags( __( 'Tags: ', 'html5blank' ), ', ', '<br>'); // Separated by commas with a line break at the end ?>
+                <div class="single-content-wrapper">
 
-			<p><?php _e( 'Categorised in: ', 'html5blank' ); the_category(', '); // Separated by commas ?></p>
+                    <div class="intro-article">
+                        <div class="padding edito">
+                            <?php the_field('intro');?>
+                        </div>
+                        <div class="single-carto" id="map"></div>
+                    </div>
 
-			<p><?php _e( 'This post was written by ', 'html5blank' ); the_author(); ?></p>
 
-			<?php edit_post_link(); // Always handy to have Edit Post Links available ?>
 
-			<?php comments_template(); ?>
+                    <div class="galery">
+                        <?php 
+                        
+                        $galery = get_field('galerie_photo');
 
-		</article>
-		<!-- /article -->
+                        foreach($galery as $image):
+                            //d($image, exif_read_data($image['url']));
+                        ?>
+                        <a href="<?php echo $image['sizes']['h100w100'];?>" class="galery-single" rel="gal">
+                            <img src="<?php echo $image['sizes']['h25w25'];?>" alt="<?php echo $image['alt'];?>">
+                        </a>
 
-	<?php endwhile; ?>
+                        <?php endforeach; ?>
 
-	<?php else: ?>
+                    </div>
+                
+                    
+                    <div class="padding edito">
+                        <?php the_field('contenu');?>
+                    </div>
+                    
+                    <?php //get_template_part('template-parts/petites-adresses'); ?>
 
-		<!-- article -->
-		<article>
+                </div>
+            </div>
+            
+            
+        </article>
+    </main>
+    
+    <script>
+        
+        var mymap = L.map('map').setView([41.7475434, 4.8490625], 3);
+        L.tileLayer('https://api.mapbox.com/styles/v1/loacman/{id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: '',
+            maxZoom: 13,
+            id: 'cjp89e99b07pz2smnpv6x3o7t',
+            accessToken: 'pk.eyJ1IjoibG9hY21hbiIsImEiOiJjanA3MXN2MW0weHkwM3ZvM29hZnA5ODgxIn0.mTmjBU_5Y51d-gCzwB6KLA',
+        }).addTo(mymap);
+        
+        <?php
+            $number = 0;
+            $group = '';
+            foreach($galery as $image):
+        
+            $exifImage = exif_read_data($image['url'], 0, true);
+        
+            $long = get_image_location($image['url'])['longitude'];
+            $lat = get_image_location($image['url'])['latitude'];
+        
+            $popup = "<div><a href='".$image['sizes']['h100w100']."'><img src=".$image['sizes']['h25w25']."></a></div>";
+                        
+            if(isset($exifImage['GPS'])):
+        ?>
+        
+        var marker<?php echo $number;?> = L.marker([<?php echo $lat.','.$long;?>]).addTo(mymap);
+        
+        marker<?php echo $number;?>.bindPopup("<?php echo $popup; ?>");
+        
+        <?php
+            $group .= 'marker'.$number.',';
+            $number++;
+            endif;
+            endforeach;
+        ?>
 
-			<h1><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></h1>
+        var group = new L.featureGroup([<?php echo $group;?>]);
+        mymap.fitBounds(group.getBounds());
+        
+    </script>
 
-		</article>
-		<!-- /article -->
+    <?php endwhile; endif;?>
+    
+    <script>
 
-	<?php endif; ?>
+jQuery(document).ready(function() {
+	
+	
+  jQuery("a.galery-single").fancybox({
+      padding: 0,
+      margin: 30,
+      overlayColor: '#000',
+      overlayOpacity: .8,
+      showCloseButton: false
+      
+	});
+	
+});
 
-	</section>
-	<!-- /section -->
-	</main>
+</script>
 
-<?php get_sidebar(); ?>
-
-<?php get_footer(); ?>
+    <?php get_footer(); ?>

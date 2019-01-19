@@ -6,14 +6,14 @@
 
     $args = array(
         'post_type' => 'post',
-        'posts_per_page' => 3
+        'posts_per_page' => 4
     );
 
     $the_query = new WP_Query( $args );
 
     //Get latest location
 
-    foreach($the_query as $post){
+    /* foreach($the_query as $post){
         if(get_field('adresse', $post)){
             $latest_location = get_field('adresse', $post);
             break;
@@ -30,7 +30,10 @@
     $adress_json = json_decode(file_get_contents($json));
     
     $latest_city = $adress_json->results[0]->locations[0]->adminArea5;
-?>
+    
+    */
+    
+    ?>
 
     <main role="main">
 
@@ -63,20 +66,23 @@
                     <?php endif;?>
 
                     <div class="home-second--right">
-                        <div class="home-carte">
-                            <div class="wrapper-carte">
-                                <div class="overlay-map">
-                                    <span class="date">Dernier endroit visité</span>
-                                    <p><?php echo $latest_city;?></p>
-                                    
-                                </div>
-                                <div id="mapHome"></div>
-                            </div>
-                        </div>
-
+                        
+                        <?php //get_template_part('template-parts/home-map'); ?>
+                        
                         <?php 
                             if($the_query->posts[2]):
                             $post = $the_query->posts[2];
+                            $size = 'h50w50';
+                        ?>
+                        
+                        <article class="full-new w50 h50">
+                            <?php get_template_part('template-parts/new-single'); ?>
+                        </article>
+                        <?php endif;?>
+
+                        <?php 
+                            if($the_query->posts[3]):
+                            $post = $the_query->posts[3];
                             $size = 'h50w50';
                         ?>
                         
@@ -96,7 +102,7 @@
     ?>
 
     <script>
-        var mymap = L.map('mapHome').setView([<?php echo($lat.' , '.$long); ?>], 4);
+        var mymap = L.map('mapHome').setView([<?php echo($lat.' , '.$long); ?>], 3);
         L.tileLayer('https://api.mapbox.com/styles/v1/loacman/{id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: '',
             maxZoom: 13,
@@ -107,10 +113,11 @@
 
         var marker = L.marker([<?php echo($lat.' , '.$long); ?>]).addTo(mymap);
         
-        //var marker2 = L.marker([41.7475434, 4.8490625]).addTo(mymap);
-        //var group = new L.featureGroup([marker]);
-        //mymap.fitBounds(group.getBounds());
+        var marker2 = L.marker([41.7475434, 4.8490625]).addTo(mymap);
+        var group = new L.featureGroup([marker, marker2]);
+        mymap.fitBounds(group.getBounds());
         //marker.bindPopup("Yo").openPopup();
+        
     </script>
     
     <?php endif;?>

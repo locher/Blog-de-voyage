@@ -5,7 +5,7 @@
 html {
     font-size: 62.5%;
     background-color: $blanc;
-    overflow-x: hidden;
+    //overflow-x: hidden;
 }
 
 body {
@@ -59,6 +59,19 @@ h3{
     font-size: 1.4rem;
 }
 
+%lien{
+        transition: all ease .25s;
+        background-color: lighten($primaire, 20%);
+        text-decoration: none;
+        color: darken($primaire, 60%);
+        border-bottom: 2px solid darken($primaire, 60%);
+        
+        &:hover{
+            background-color: $primaire;
+            color: darken($primaire, 80%);
+        }
+    }
+
 .bt-arrow{
     font-family: $serif;
     font-size: 1.5rem;
@@ -107,6 +120,14 @@ h3{
 
 .padding{
     padding:$padding;
+    
+    @include width-below(700px){
+        padding: $padding/2;
+    }
+}
+
+.padding + .padding{
+    padding-top: 0;
 }
 
 .edito{
@@ -129,16 +150,7 @@ h3{
     
     
     a{
-        transition: all ease .25s;
-        background-color: lighten($primaire, 20%);
-        text-decoration: none;
-        color: darken($primaire, 60%);
-        border-bottom: 2px solid darken($primaire, 60%);
-        
-        &:hover{
-            background-color: $primaire;
-            color: darken($primaire, 80%);
-        }
+        @extend %lien;
     }
     
     li{
@@ -164,4 +176,38 @@ h3{
         font-style: italic;
         margin-top: .5em;
     }
+}
+
+//Vidéos
+
+.wp-video, video.wp-video-shortcode, .mejs-container, .mejs-overlay.load {
+	width: 100% !important;
+	height: 100% !important;
+}
+.mejs-container {
+	padding-top: 56.25%;
+}
+.wp-video, video.wp-video-shortcode {
+	max-width: 100% !important;
+}
+video.wp-video-shortcode {
+	position: relative;
+}
+.mejs-mediaelement {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+.mejs-controls {
+	display: none;
+}
+.mejs-overlay-play {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: auto !important;
+	height: auto !important;
 }

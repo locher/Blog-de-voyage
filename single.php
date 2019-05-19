@@ -37,40 +37,63 @@
                         <div class="single-carto" id="map"></div>
                     </div>
 
-
+                    <?php
+                        $galery = get_field('galerie_photo');
+                        if(count($galery) != 1):
+                    ?>
 
                     <div class="galery">
                         <?php 
                         
-                        $galery = get_field('galerie_photo');
-
+                        
                         foreach($galery as $image):
                             //d($image, exif_read_data($image['url']));
                         ?>
-                        <a href="<?php echo $image['sizes']['h100w100'];?>" class="galery-single" rel="gal">
+                        <a href="<?php echo $image['sizes']['h100w100'];?>" class="galery-single" data-fancybox="gallery" title="<?php echo $image['caption'];?>">
                             <img src="<?php echo $image['sizes']['h25w25'];?>" alt="<?php echo $image['alt'];?>">
                         </a>
 
                         <?php endforeach; ?>
 
                     </div>
-                
                     
+                    <?php endif;?>
+                    
+                    
+                    <?php if(get_field('contenu')):?>
+
                     <div class="padding edito">
                         <?php the_field('contenu');?>
                     </div>
                     
+                    <?php endif;?>
+
+
+                    <div class="padding comment ">
+                        <?php
+                        
+                        // If comments are open or we have at least one comment, load up the comment template.
+				if ( comments_open() || get_comments_number() ) :
+					comments_template();
+				endif;
+                        
+                        ?>
+
+                    </div>
+
+
+
+
                     <?php //get_template_part('template-parts/petites-adresses'); ?>
 
                 </div>
             </div>
-            
-            
+
+
         </article>
     </main>
-    
+
     <script>
-        
         var mymap = L.map('map').setView([41.7475434, 4.8490625], 3);
         L.tileLayer('https://api.mapbox.com/styles/v1/loacman/{id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: '',
@@ -78,7 +101,7 @@
             id: 'cjp89e99b07pz2smnpv6x3o7t',
             accessToken: 'pk.eyJ1IjoibG9hY21hbiIsImEiOiJjanA3MXN2MW0weHkwM3ZvM29hZnA5ODgxIn0.mTmjBU_5Y51d-gCzwB6KLA',
         }).addTo(mymap);
-        
+
         <?php
             $number = 0;
             $group = '';
@@ -89,15 +112,15 @@
             $long = get_image_location($image['url'])['longitude'];
             $lat = get_image_location($image['url'])['latitude'];
         
-            $popup = "<div><a href='".$image['sizes']['h100w100']."'><img src=".$image['sizes']['h25w25']."></a></div>";
+            $popup = "<div><a class='galmap' rel='galmap'><img src=".$image['sizes']['h25w25']."></a></div>";
                         
-            if(isset($exifImage['GPS'])):
+            if(isset($exifImage['GPS']) && ($lat != 0) && $long != 0):
         ?>
-        
+
         var marker<?php echo $number;?> = L.marker([<?php echo $lat.','.$long;?>]).addTo(mymap);
-        
+
         marker<?php echo $number;?>.bindPopup("<?php echo $popup; ?>");
-        
+
         <?php
             $group .= 'marker'.$number.',';
             $number++;
@@ -105,29 +128,23 @@
             endforeach;
         ?>
 
-        var group = new L.featureGroup([<?php echo $group;?>]);
-        mymap.fitBounds(group.getBounds());
+        
         
     </script>
 
-    <?php endwhile; endif;?>
+    <?php endwhile; ?>
     
     <script>
-
-jQuery(document).ready(function() {
-	
-	
-  jQuery("a.galery-single").fancybox({
-      padding: 0,
-      margin: 30,
-      overlayColor: '#000',
-      overlayOpacity: .8,
-      showCloseButton: false
-      
-	});
-	
+        var group = new L.featureGroup([<?php echo $group;?>]);
+        mymap.fitBounds(group.getBounds());
+    </script>
+    
+    <script>
+jQuery('[data-fancybox="gallery"]').fancybox({
+	toolbar: false
 });
-
 </script>
+    
+    <?php endif;?>
 
     <?php get_footer(); ?>

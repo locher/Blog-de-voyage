@@ -1,0 +1,135 @@
+.comment-list {
+    li {
+        list-style-type: none;
+        .comment-body {
+            border-left: 3px solid #eaeaea;
+            padding-left: 20px;
+        }
+    }
+    .byuser {
+        .comment-body {
+            border-left: 3px solid $secondaire;
+        }
+    }
+    
+    .comment-author-loic-herr{
+        .comment-body {
+                border-left: 3px solid $primaire;
+            }
+    }
+    
+    .depth-1{
+        padding: 20px 0;
+    }
+    
+    .depth-2{
+        margin-left: 40px;
+        margin-top: 40px;
+    }
+    
+    .depth-3{
+        margin-left: 40px;
+        margin-top: 40px;
+    }
+    
+    line-height: 1.3em;
+}
+
+.comment-author{
+    @extend h3;
+}
+
+.says{
+display: none;
+}
+
+.commentmetadata{
+    a{
+        font-size: 1.4rem;
+        text-decoration: none;
+        color: inherit;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+}
+
+.reply{
+    margin-top: 20px;
+}
+
+.comment-reply-link{
+    @extend %lien;
+    font-size: 1.4rem;
+}
+
+.comment-respond{
+    margin-top: 40px;
+    
+    label{
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        @extend h3;
+        font-size: 1.8rem;
+    }
+    
+    input:not([type="submit"]), textarea{
+        transition: border ease .2s;
+        font-family: $sans-serif;
+        font-weight: $regular;
+        font-size: 1.5rem;
+        padding: 5px 10px;
+        border: 1px solid $gris;
+        outline: none;
+        box-shadow: none;
+        
+        &:focus{
+            border-color: $primaire;
+        }
+    }
+    
+    //Prevent safari ios
+    input, textarea{
+        -webkit-appearance: none;
+        border-radius: 0;
+        box-shadow: 0;
+    }
+    
+    input:not([type="submit"]){
+        max-width: 400px;
+        
+    }
+    
+    textarea{
+        width: 100%;
+        resize: vertical;
+        height: 150px;
+    }
+    
+    .submit{
+        @extend %lien;
+        border: none;
+        margin-top: 20px;
+         font-family: $serif;
+        font-weight: $regular;
+        font-size: 2rem;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+}
+
+.logged-in-as{
+    margin-top: 10px;
+}
+
+.logged-in-as a{
+    @extend %lien;
+}
+
+.comment-reply-title{
+    margin-bottom: 10px;
+}
+
+.comment-reply-title a{
+    @extend %lien;
+}

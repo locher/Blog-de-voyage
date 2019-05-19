@@ -1,24 +1,53 @@
-<div class="comments">
-	<?php if (post_password_required()) : ?>
-	<p><?php _e( 'Post is password protected. Enter the password to view any comments.', 'html5blank' ); ?></p>
-</div>
+<?php
+/**
+ * The template for displaying comments
+ *
+ * The area of the page that contains both current comments
+ * and the comment form.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Fifteen
+ * @since Twenty Fifteen 1.0
+ */
 
-	<?php return; endif; ?>
+/*
+ * If the current post is protected by a password and
+ * the visitor has not yet entered the password we will
+ * return early without loading the comments.
+ */
+if ( post_password_required() ) {
+	return;
+}
+?>
 
-<?php if (have_comments()) : ?>
+<div id="comments" class="comments-area">
 
-	<h2><?php comments_number(); ?></h2>
+	<?php if ( have_comments() ) : ?>
+		<h2 class="comments-title">Commentaires</h2>
 
-	<ul>
-		<?php wp_list_comments('type=comment&callback=html5blankcomments'); // Custom callback in functions.php ?>
-	</ul>
+		<?php twentyfifteen_comment_nav(); ?>
 
-<?php elseif ( ! comments_open() && ! is_page() && post_type_supports( get_post_type(), 'comments' ) ) : ?>
+		<ol class="comment-list">
+			<?php
+				wp_list_comments( array(
+					'style'       => 'ol',
+					'short_ping'  => true,
+					'avatar_size' => 56,
+				) );
+			?>
+		</ol><!-- .comment-list -->
 
-	<p><?php _e( 'Comments are closed here.', 'html5blank' ); ?></p>
+		<?php twentyfifteen_comment_nav(); ?>
 
-<?php endif; ?>
+	<?php endif; // have_comments() ?>
 
-<?php comment_form(); ?>
+	<?php
+		// If comments are closed and there are comments, let's leave a little note, shall we?
+		if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
+	?>
+		<p class="no-comments"><?php _e( 'Comments are closed.', 'twentyfifteen' ); ?></p>
+	<?php endif; ?>
 
-</div>
+	<?php comment_form(); ?>
+
+</div><!-- .comments-area -->

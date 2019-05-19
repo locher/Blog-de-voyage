@@ -99,6 +99,10 @@
     
     .img-wrapper{
         height: 100vh;
+        
+        @include width-below(700px){
+          height: calc(100vh - 60px);  
+        }
     }
     
     @include width-below(700px){
@@ -109,17 +113,18 @@
 //Part 2
 
 .home-second {
-    min-height: 100vh;
-    display: flex;
     
     @include width-above(701px) {
+        
+        display: flex;
+        min-height: 100vh;
+        
         >div {
             width: 50%;
         }
     }
     
     @include width-below(700px) {
-        flex-wrap: wrap;
         
         .h50, .h100{
             min-height: calc(50vh - 30px); //30 : moitié de la hauteur du menu;

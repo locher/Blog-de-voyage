@@ -48,6 +48,10 @@
             </article>
 
             <?php endif;?>
+            
+            <?php
+                    if($the_query->posts[1]):
+            ?>
 
             <section class="home-second">
 
@@ -64,6 +68,8 @@
                     </div>
 
                     <?php endif;?>
+                    
+                    <?php if($the_query->posts[2]): ?>
 
                     <div class="home-second--right">
                         
@@ -92,8 +98,12 @@
                         <?php endif;?>
 
                     </div>
+                    
+                    <?php endif;?>
 
             </section>
+            
+            <?php endif;?>
 
     </main>
     

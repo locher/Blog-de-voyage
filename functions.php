@@ -10,7 +10,7 @@ if (function_exists('add_theme_support'))
     // Add Menu Support
     add_theme_support('menus');
 
-    add_image_size('h100w100', 1920, 1080, true);
+    add_image_size('h100w100', 1920, 1080, false);
     add_image_size('h100w50', 960, 1080, true);
     add_image_size('h50w50', 960, 540, true);
     add_image_size('h25w25', 460, 460, true);
@@ -41,7 +41,7 @@ function html5blank_header_scripts()
         wp_register_script('myscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
         wp_enqueue_script('myscripts'); // Enqueue it!
         
-        wp_register_script('lightbox', get_template_directory_uri() . '/js/fancybox/jquery.fancybox-1.3.4.js', array('jquery'), '1.0.0'); // Custom scripts
+        wp_register_script('lightbox', get_template_directory_uri() . '/js/fancybox/jquery.fancybox.min.js', array('jquery'), '1.0.0'); // Custom scripts
         wp_enqueue_script('lightbox'); // Enqueue it!
     }
 }
@@ -61,7 +61,7 @@ function html5blank_styles()
     wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
     wp_enqueue_style('html5blank'); // Enqueue it!
     
-    wp_register_style('fancycss', get_template_directory_uri() . '/js/fancybox/jquery.fancybox-1.3.4.css"', array(), '1.0', 'all');
+    wp_register_style('fancycss', get_template_directory_uri() . '/js/fancybox/jquery.fancybox.min.css"', array(), '1.0', 'all');
     wp_enqueue_style('fancycss'); // Enqueue it!
 }
 
@@ -197,11 +197,9 @@ function enable_threaded_comments()
 // Add Actions
 add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
 add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
-add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
 add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
 add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
 add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
-add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 add_action('init', 'html5wp_pagination'); // Add our HTML5 Pagination
 
 // Remove Actions
@@ -345,5 +343,44 @@ function gps2Num($coordPart) {
 
     return floatval($parts[0]) / floatval($parts[1]);
 }
+
+
+
+if ( ! function_exists( 'twentyfifteen_comment_nav' ) ) :
+/**
+ * Display navigation to next/previous comments when applicable.
+ *
+ * @since Twenty Fifteen 1.0
+ */
+function twentyfifteen_comment_nav() {
+	// Are there comments to navigate through?
+	if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
+	?>
+	<nav class="navigation comment-navigation" role="navigation">
+		<h2 class="screen-reader-text"><?php _e( 'Comment navigation', 'twentyfifteen' ); ?></h2>
+		<div class="nav-links">
+			<?php
+				if ( $prev_link = get_previous_comments_link( __( 'Older Comments', 'twentyfifteen' ) ) ) :
+					printf( '<div class="nav-previous">%s</div>', $prev_link );
+				endif;
+
+				if ( $next_link = get_next_comments_link( __( 'Newer Comments', 'twentyfifteen' ) ) ) :
+					printf( '<div class="nav-next">%s</div>', $next_link );
+				endif;
+			?>
+		</div><!-- .nav-links -->
+	</nav><!-- .comment-navigation -->
+	<?php
+	endif;
+}
+endif;
+
+function remove_comment_website_field($fields) {
+unset($fields['url']);
+return $fields;
+}
+add_filter('comment_form_default_fields','remove_comment_website_field');
+
+
 
 ?>

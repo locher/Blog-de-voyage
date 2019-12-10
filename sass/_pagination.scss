@@ -1,0 +1,37 @@
+.pagination{
+	text-align: center;
+	margin-top: $padding;
+	margin-bottom: $padding;
+	
+	.screen-reader-text{
+		display: 	none;
+	}
+	
+	.prev,
+	.next{
+		margin: 20px;
+	}
+	
+	a{
+		color: $gris;
+		padding: 5px;
+		
+		&:hover{
+			transition: color ease .2s;
+			color: $primaire;
+		}
+	}
+	
+	.current{
+		color: $secondaire;
+		padding: 5px;
+	}
+}
+
+@include width-below(500px){
+	.nav-links{
+		:not(.next, .prev){
+			display: none;
+		}
+	}
+}

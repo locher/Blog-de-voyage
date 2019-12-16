@@ -117,9 +117,11 @@
     @include width-above(701px) {
         
         display: flex;
+	   flex-wrap: wrap;
         min-height: 100vh;
         
-        >div {
+        >div,
+	   >article{
             width: 50%;
         }
     }
